@@ -1655,7 +1655,20 @@ function trackAppEvent(name, count=1, params=null) {
 	}
 }
 
+// First difficulty period whose difficulty is BLAKE2b; SHA256d and BLAKE2b difficulties are not comparable.
+function difficultyHistoryStartHeight() {
+	const forkHeight = coinConfig.blake2bForkHeightByNetwork[global.activeBlockchain];
+	if (forkHeight === undefined) {
+		return 0;
+	}
+
+	const periodLength = coinConfig.difficultyAdjustmentBlockCount;
+
+	return Math.ceil(forkHeight / periodLength) * periodLength;
+}
+
 module.exports = {
+	difficultyHistoryStartHeight: difficultyHistoryStartHeight,
 	reflectPromise: reflectPromise,
 	redirectToConnectPageIfNeeded: redirectToConnectPageIfNeeded,
 	formatHex: formatHex,

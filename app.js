@@ -634,7 +634,7 @@ async function loadDifficultyHistory(tipBlockHeight=null) {
 		return;
 	}
 
-	let height = 0;
+	let height = utils.difficultyHistoryStartHeight();
 	let heights = [];
 
 	while (height <= tipBlockHeight) {

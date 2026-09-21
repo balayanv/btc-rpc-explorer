@@ -109,7 +109,7 @@ block endOfBody
 		var yearItems = !{JSON.stringify(yearItems)};
 		
 		var heights = [];
-		var height = 0;
+		var height = !{utils.difficultyHistoryStartHeight()};
 		var chunkSize = 10;
 		var summary = null;
 
@@ -200,7 +200,7 @@ block endOfBody
 			summary.difficultyData.reverse();
 			summary.difficultyDeltaData.reverse();
 
-			let latestBlockStart = 2016 * (summary.difficultyData.length - 1);
+			let latestBlockStart = !{utils.difficultyHistoryStartHeight()} + 2016 * (summary.difficultyData.length - 1);
 
 			for (var i = 0; i < summary.difficultyData.length; i++) {
 				var item = summary.difficultyData[i];
@@ -402,7 +402,7 @@ block endOfBody
 				var heightStr = `${raw.heights[i]}`;
 				var previousHeightStr = `${raw.heights[i - 1]}`;
 
-				summary.difficultyData.push({epoch:i, date:raw[heightStr].time, difficulty:raw[heightStr].difficulty});
+				summary.difficultyData.push({epoch:raw.heights[i] / 2016, date:raw[heightStr].time, difficulty:raw[heightStr].difficulty});
 
 				summary.graphData.push({x:i, y:raw[heightStr].difficulty});
 
@@ -422,7 +422,7 @@ block endOfBody
 						}
 					}
 
-					summary.difficultyDeltaData.push({epoch:i});
+					summary.difficultyDeltaData.push({epoch:raw.heights[i] / 2016});
 
 				} else {
 					var d1 = raw[heightStr].difficulty;
@@ -430,7 +430,7 @@ block endOfBody
 
 					var deltaPercent = 100 * (d1 / d0 - 1);
 
-					summary.difficultyDeltaData.push({epoch:i, difficultyDelta:deltaPercent});
+					summary.difficultyDeltaData.push({epoch:raw.heights[i] / 2016, difficultyDelta:deltaPercent});
 
 					/*if (d1 > d0) {
 						// increase

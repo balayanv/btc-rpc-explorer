@@ -107,6 +107,9 @@ module.exports = {
 	minTxBytes: 166, // ref: https://en.bitcoin.it/wiki/Maximum_transaction_rate
 	minTxWeight: 166 * 4, // hack
 	difficultyAdjustmentBlockCount: 2016,
+	blake2bForkHeightByNetwork: {
+		"main": 961640
+	},
 	maxSupplyByNetwork: {
 		"main": new Decimal(20999817.31308491), // ref: https://bitcoin.stackexchange.com/a/38998
 		"test": new Decimal(21000000),

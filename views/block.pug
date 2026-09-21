@@ -196,7 +196,7 @@ block content
 								else
 									| 1
 
-						+summaryItem("Difficulty")
+						+summaryItem(result.getblock.difficulty_blake2b !== undefined ? "Difficulty (BLAKE2b)" : "Difficulty")
 							- var difficultyData = utils.formatLargeNumber(result.getblock.difficulty, 3);
 							
 							if (result.getblock.difficulty > 1000)
