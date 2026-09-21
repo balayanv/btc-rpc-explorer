@@ -485,6 +485,7 @@ function getRpcData(cmd, verifyingConnection=false) {
 					throw new Error(`RpcError: type=errorResponse-02`);
 				}
 
+				addLegacyDifficulty(result);
 				resolve(result);
 
 				logStats(cmd, false, new Date().getTime() - startTime, true);
@@ -547,6 +548,7 @@ function getRpcDataWithParams(request, verifyingConnection=false) {
 					throw new Error(`RpcError: type=errorResponse-04`);
 				}
 
+				addLegacyDifficulty(result);
 				resolve(result);
 
 				logStats(request.method, true, new Date().getTime() - startTime, true);
@@ -568,6 +570,13 @@ function getRpcDataWithParams(request, verifyingConnection=false) {
 		
 		rpcQueue.push({rpcCall:rpcCall});
 	});
+}
+
+// Knots BLAKE2b blocks report difficulty_blake2b (expected hashes per block) instead of difficulty.
+function addLegacyDifficulty(result) {
+	if (result && result.difficulty === undefined && result.difficulty_blake2b !== undefined) {
+		result.difficulty = result.difficulty_blake2b / 2 ** 32;
+	}
 }
 
 function unsupportedPromise(minRpcVersionNeeded) {
